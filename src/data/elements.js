@@ -24,6 +24,9 @@ export default {
             background:
                 "no-repeat url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M2,50 50,2 98,50 50,98z'/><path d='M8,50 50,8 92,50 50,92z'/></svg>\")",
         },
+        extraResizableOption: {
+            aspectRatio: 1,
+        },
     },
     delay: {
         style: {

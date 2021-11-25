@@ -44,6 +44,7 @@ export default {
             this.activeItemId = id;
             const type = elements[this.elements.find((x) => x.id == id).type];
             $("#canvas #element-wrap-" + id).resizable({
+                ...type.extraResizableOption,
                 minWidth: type.style.minWidth.replace("px", ""),
                 minHeight: type.style.minHeight.replace("px", ""),
             });
