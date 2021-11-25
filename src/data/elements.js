@@ -29,7 +29,7 @@ export default {
         style: {
             minWidth: "200px",
             minHeight: "50px",
-            borderRadius: "0 25px 25px 0",
+            borderRadius: "0 9999px 9999px 0",
             background: "#000",
             color: "#fff",
         },

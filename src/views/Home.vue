@@ -12,6 +12,9 @@
 <script>
 import Designer from "../components/Designer.vue";
 import Sidebar from "../components/Sidebar.vue";
+import $ from "jquery";
+import elements from "../data/elements";
+require("jquery-ui/ui/widgets/resizable");
 
 export default {
     name: "Home",
@@ -34,7 +37,16 @@ export default {
             });
         },
         setActive(id) {
+            if (this.activeItemId != null)
+                $("#canvas #element-wrap-" + this.activeItemId).resizable(
+                    "destroy"
+                );
             this.activeItemId = id;
+            const type = elements[this.elements.find((x) => x.id == id).type];
+            $("#canvas #element-wrap-" + id).resizable({
+                minWidth: type.style.minWidth.replace("px", ""),
+                minHeight: type.style.minHeight.replace("px", ""),
+            });
         },
     },
     mounted() {

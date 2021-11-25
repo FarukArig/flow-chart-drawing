@@ -10,7 +10,7 @@
 import $ from "jquery";
 import elements from "../data/elements";
 require("jquery-ui/ui/widgets/draggable");
-require("jquery-ui/ui/widgets/resizable");
+
 export default {
     name: "element-module",
     props: ["element", "isDraggable", "activeItemId"],
@@ -21,11 +21,6 @@ export default {
     methods: {
         setActive() {
             this.$emit("setActive", this.element.id);
-            const type = elements[this.element.type];
-            $("#canvas #element-wrap-" + this.element.id).resizable({
-                minWidth: type.style.minWidth.replace("px", ""),
-                minHeight: type.style.minHeight.replace("px", ""),
-            });
         },
     },
     mounted() {
@@ -34,9 +29,6 @@ export default {
                 containment: "#canvas",
             });
         }
-        if (this.activeItemId === this.element.id) {
-            console.log("asd");
-        }
     },
     computed: {
         getStyle() {
@@ -44,7 +36,7 @@ export default {
                 width: "fit-content",
                 border:
                     this.isDraggable && this.element.id == this.activeItemId
-                        ? "1px solid #6C8EBF"
+                        ? "1px dashed #06a8ff"
                         : "1px solid transparent",
             };
         },
