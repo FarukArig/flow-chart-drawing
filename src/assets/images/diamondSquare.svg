@@ -1,0 +1,12 @@
+<svg viewBox='0 0 100 100' preserveAspectRatio='none'>
+    <filter id="dropshadow" height="125%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1" />
+      <feOffset dx="0" dy="0" result="offsetblur" />
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <path d='M2,50 50,2 98,50 50,98z' class='outer' />
+    <path d='M8,50 50,8 92,50 50,92z' class='inner' />
+  </svg>
