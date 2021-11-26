@@ -30,11 +30,13 @@ export default {
     },
     methods: {
         addElement(type) {
+            const id = Math.floor(Math.random() * 10000);
             this.elements.push({
-                id: Math.floor(Math.random() * 10000),
+                id: id,
                 text: type,
                 type: type,
             });
+            this.activeItemId = id;
         },
         setActive(id) {
             if (this.activeItemId != null)
