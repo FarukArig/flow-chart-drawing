@@ -92,7 +92,7 @@ export default {
                 const canvas = document
                     .querySelector("#canvas")
                     .getBoundingClientRect();
-                this.lines.forEach((line) => {
+                this.lines.forEach((line,k) => {
                     const startDot = document
                         .querySelector(
                             "#canvas #element-wrap-" +
@@ -102,11 +102,20 @@ export default {
                                 ")"
                         )
                         .getBoundingClientRect();
+                    let n = 1;
+                    for (let i = 0; i < k; i++) {
+                        const tempLine = this.lines[i];
+                        if(tempLine.input.elementId == line.input.elementId){
+                            n++;
+                        }
+                    }
                     const endDot = document
                         .querySelector(
                             "#canvas #element-wrap-" +
                                 line.input.elementId +
-                                " .inputs .input-dot"
+                                " .inputs .input-dot:nth-child(" +
+                                n +
+                                ")"
                         )
                         .getBoundingClientRect();
                     lineSvgs.push({
