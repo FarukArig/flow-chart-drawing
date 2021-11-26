@@ -36,20 +36,24 @@ export default {
                 text: type,
                 type: type,
             });
-            this.activeItemId = id;
+            this.setActive(id);
         },
         setActive(id) {
-            if (this.activeItemId != null)
+            if(this.activeItemId == id) return;
+            if (this.activeItemId != null){
                 $("#canvas #element-wrap-" + this.activeItemId).resizable(
                     "destroy"
                 );
+            }
             this.activeItemId = id;
             const type = elements[this.elements.find((x) => x.id == id).type];
-            $("#canvas #element-wrap-" + id).resizable({
-                ...type.extraResizableOption,
-                minWidth: type.style.minWidth.replace("px", ""),
-                minHeight: type.style.minHeight.replace("px", ""),
-            });
+            setTimeout(() => {
+                $("#canvas #element-wrap-" + id).resizable({
+                    ...type.extraResizableOption,
+                    minWidth: type.style.minWidth.replace("px", ""),
+                    minHeight: type.style.minHeight.replace("px", ""),
+                });
+            }, 50);
         },
     },
     mounted() {
