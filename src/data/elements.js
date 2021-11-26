@@ -7,6 +7,8 @@ export default {
             background: "#000",
             color: "#fff",
         },
+        input: 2,
+        output: 3,
     },
     process: {
         style: {
@@ -15,6 +17,8 @@ export default {
             background: "#000",
             color: "#fff",
         },
+        input: 2,
+        output: 3,
     },
     decision: {
         style: {
@@ -27,6 +31,8 @@ export default {
         extraResizableOption: {
             aspectRatio: 1,
         },
+        input: 2,
+        output: 3,
     },
     delay: {
         style: {
@@ -36,6 +42,8 @@ export default {
             background: "#000",
             color: "#fff",
         },
+        input: 2,
+        output: 3,
     },
     data: {
         style: {
@@ -45,5 +53,7 @@ export default {
             background:
                 "no-repeat url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 2000 500'><rect x='190' y='0' minWidth='90%' minHeight='100%'  transform='skewX(-20)' /></svg>\")",
         },
+        input: 2,
+        output: 3,
     },
 };

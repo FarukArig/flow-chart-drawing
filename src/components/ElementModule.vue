@@ -1,7 +1,26 @@
 <template>
-    <div :id="'element-wrap-' + element.id" :style="getStyle">
-        <div id="element" :style="getElementStyle" @click="setActive">
+    <div
+        @mouseover="drawLine"
+        :id="'element-wrap-' + element.id"
+        :style="getStyle"
+    >
+        <div class="inputs" :style="{ opacity: isActive ? 1 : 0 }">
+            <div
+                class="input-dot"
+                v-for="n in getElementType.input"
+                :key="n"
+            ></div>
+        </div>
+        <div id="element" :style="getElementType.style" @click="setActive">
             {{ $props.element.text }}
+        </div>
+        <div class="outputs" :style="{ opacity: isActive ? 1 : 0 }">
+            <div
+                @click="startLine(n)"
+                class="output-dot"
+                v-for="n in getElementType.output"
+                :key="n"
+            ></div>
         </div>
     </div>
 </template>
@@ -22,11 +41,24 @@ export default {
         setActive() {
             this.$emit("setActive", this.element.id);
         },
+        startLine(n) {
+            this.$emit("startLine", this.element.id, n);
+        },
+        drawLine() {
+            this.$emit("drawLine", this.element.id);
+        },
     },
     mounted() {
         if (this.isDraggable) {
             $("#canvas #element-wrap-" + this.element.id).draggable({
                 containment: "#canvas",
+                drag: () => {
+                    this.$emit("forceRecomputeCounter");
+                },
+                stop: (e, a) => {
+                    this.element.y = a.position.top;
+                    this.element.x = a.position.left;
+                },
             });
         }
     },
@@ -40,13 +72,14 @@ export default {
                         : "1px solid transparent",
             };
         },
-        getElementStyle() {
-            return {
-                ...elements[this.element.type].style,
-            };
+        getElementType() {
+            return elements[this.element.type];
         },
         item() {
             return this.element;
+        },
+        isActive() {
+            return this.element.id === this.activeItemId;
         },
     },
 };
@@ -62,6 +95,33 @@ export default {
     width: 100%;
     height: 100%;
     padding: 20px;
+}
+.inputs {
+    width: 100%;
+    height: 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    .input-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #06a8ff;
+        cursor: pointer;
+    }
+}
+.outputs {
+    width: 100%;
+    height: 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    .output-dot {
+        width: 7px;
+        height: 7px;
+        background: #06a8ff;
+        cursor: pointer;
+    }
 }
 .ui-resizable {
     position: relative;
@@ -87,16 +147,16 @@ export default {
 .ui-resizable-s {
     cursor: s-resize;
     height: 7px;
-    width: 100%;
+    width: 10%;
     bottom: -5px;
-    left: 0;
+    right: 0;
 }
 .ui-resizable-e {
     cursor: e-resize;
     width: 7px;
     right: -5px;
-    top: 0;
-    height: 100%;
+    bottom: 0;
+    height: 30%;
 }
 .ui-resizable-w {
     cursor: w-resize;
