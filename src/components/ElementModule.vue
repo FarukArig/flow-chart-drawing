@@ -1,6 +1,6 @@
 <template>
     <div
-        @mouseover="drawLine"
+        @mouseover="drawLine(false)"
         :id="'element-wrap-' + element.id"
         :style="getStyle"
     >
@@ -11,7 +11,7 @@
                 :key="n"
             ></div>
         </div>
-        <div id="element" :style="getElementType.style" @click="setActive">
+        <div id="element" :style="getElementType.style" @click="click">
             {{ $props.element.text }}
         </div>
         <div class="outputs" :style="{ opacity: isActive ? 1 : 0 }">
@@ -38,14 +38,15 @@ export default {
         return {};
     },
     methods: {
-        setActive() {
+        click() {
             this.$emit("setActive", this.element.id);
+            this.drawLine(true);
         },
         startLine(n) {
             this.$emit("startLine", this.element.id, n);
         },
-        drawLine() {
-            this.$emit("drawLine", this.element.id);
+        drawLine(isReal) {
+            this.$emit("drawLine", this.element.id, isReal);
         },
     },
     mounted() {
