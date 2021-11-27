@@ -47,11 +47,14 @@ export default {
     },
     data: {
         style: {
-            minWidth: "200px",
+            minWidth: "220px",
             minHeight: "50px",
             color: "#fff",
             background:
-                "no-repeat url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 2000 500'><rect x='190' y='0' minWidth='90%' minHeight='100%'  transform='skewX(-20)' /></svg>\")",
+                "no-repeat url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 500'><rect x='190' y='0' width='90%' height='100%'  transform='skewX(-20)' /></svg>\")",
+        },
+        extraResizableOption: {
+            aspectRatio: 20/5,
         },
         input: 2,
         output: 3,

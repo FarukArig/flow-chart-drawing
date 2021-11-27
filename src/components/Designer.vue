@@ -24,7 +24,7 @@
                     :y1="line.y1"
                     :x2="line.x2"
                     :y2="line.y2"
-                    stroke="red"
+                    :stroke="line.stroke"
                 />
             </svg>
         </div>
@@ -51,15 +51,15 @@ export default {
     methods: {
         setActive(e) {
             this.$emit("setActive", e);
-            this.lineStartElementId = null;
             this.forceRecomputeCounter++;
         },
         startLine(id, n) {
             this.lineStartElementId = id;
             this.lineStartOutputN = n;
         },
-        drawLine(id) {
+        drawLine(id, isReal) {
             if (this.lineStartElementId && this.lineStartElementId !== id) {
+                this.lines = this.lines.filter(x => x.isReal);
                 this.lines.forEach((line) => {
                     if (
                         line.output.elementId == this.lineStartElementId &&
@@ -68,8 +68,8 @@ export default {
                         return;
                     }
                 });
-                console.log("create line");
                 this.lines.push({
+                    isReal: isReal,
                     output: {
                         elementId: this.lineStartElementId,
                         dot: this.lineStartOutputN,
@@ -78,7 +78,9 @@ export default {
                         elementId: id,
                     },
                 });
-                this.lineStartElementId = null;
+                if(isReal){
+                    this.lineStartElementId = null;
+                }
             }
         },
     },
@@ -90,7 +92,7 @@ export default {
                 const canvas = document
                     .querySelector("#canvas")
                     .getBoundingClientRect();
-                this.lines.forEach((line) => {
+                this.lines.forEach((line,k) => {
                     const startDot = document
                         .querySelector(
                             "#canvas #element-wrap-" +
@@ -100,11 +102,20 @@ export default {
                                 ")"
                         )
                         .getBoundingClientRect();
+                    let n = 1;
+                    for (let i = 0; i < k; i++) {
+                        const tempLine = this.lines[i];
+                        if(tempLine.input.elementId == line.input.elementId){
+                            n++;
+                        }
+                    }
                     const endDot = document
                         .querySelector(
                             "#canvas #element-wrap-" +
                                 line.input.elementId +
-                                " .inputs .input-dot"
+                                " .inputs .input-dot:nth-child(" +
+                                n +
+                                ")"
                         )
                         .getBoundingClientRect();
                     lineSvgs.push({
@@ -112,6 +123,7 @@ export default {
                         y1: startDot.top - canvas.top + 3,
                         x2: endDot.left - canvas.left + 3,
                         y2: endDot.top - canvas.top + 3,
+                        stroke: line.isReal ? "black": "red"
                     });
                 });
             }
