@@ -57,6 +57,7 @@ export default {
         startLine(id, n) {
             this.lineStartElementId = id;
             this.lineStartOutputN = n;
+            this.lines = this.lines.filter(x => !(x.output.elementId == id && x.output.dot == n));
         },
         drawLine(id, isReal) {
             if (this.lineStartElementId && this.lineStartElementId !== id) {
