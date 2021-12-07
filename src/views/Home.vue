@@ -7,12 +7,14 @@
             @setActive="setActive"
             :activeItemId="activeItemId"
         />
+        <Toolbar />
     </div>
 </template>
 
 <script>
 import Designer from "../components/Designer.vue";
 import Sidebar from "../components/Sidebar.vue";
+import Toolbar from "../components/Toolbar.vue";
 import $ from "jquery";
 import elements from "../data/elements";
 require("jquery-ui/ui/widgets/resizable");
@@ -22,6 +24,7 @@ export default {
     components: {
         Sidebar,
         Designer,
+        Toolbar
     },
     data() {
         return {
