@@ -60,14 +60,17 @@ export default {
         drawLine(id, isReal) {
             if (this.lineStartElementId && this.lineStartElementId !== id) {
                 this.lines = this.lines.filter(x => x.isReal);
+                var flag = false;
                 this.lines.forEach((line) => {
                     if (
                         line.output.elementId == this.lineStartElementId &&
                         line.input.elementId == id
                     ) {
-                        return;
+                        flag = true;
                     }
                 });
+                if(flag)
+                    return;
                 this.lines.push({
                     isReal: isReal,
                     output: {
