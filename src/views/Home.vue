@@ -7,7 +7,10 @@
             @setActive="setActive"
             :activeItemId="activeItemId"
         />
-        <Toolbar />
+        <Toolbar 
+            :elements="elements" 
+            :activeItemId="activeItemId"
+        />
     </div>
 </template>
 
