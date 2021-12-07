@@ -50,6 +50,9 @@ export default {
         };
     },
     methods: {
+        setForceRecomputeCounter(){
+            this.forceRecomputeCounter++;
+        },
         setActive(e) {
             this.$emit("setActive", e);
             this.forceRecomputeCounter++;

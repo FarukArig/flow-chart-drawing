@@ -2,6 +2,7 @@
     <div id="home">
         <Sidebar @addElement="addElement" />
         <Designer
+            ref="designer"
             :elements="elements"
             @setActive="setActive"
             :activeItemId="activeItemId"
@@ -49,9 +50,11 @@ export default {
             const type = elements[this.elements.find((x) => x.id == id).type];
             setTimeout(() => {
                 $("#canvas #element-wrap-" + id).resizable({
+                    containment: "#canvas",
                     ...type.extraResizableOption,
                     minWidth: type.style.minWidth.replace("px", ""),
                     minHeight: type.style.minHeight.replace("px", ""),
+                    resize: () => this.$refs.designer.setForceRecomputeCounter(),
                 });
             }, 50);
         },
