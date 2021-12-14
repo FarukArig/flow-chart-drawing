@@ -2,8 +2,13 @@
     <div id="home">
         <Sidebar @addElement="addElement" />
         <Designer
+            ref="designer"
             :elements="elements"
             @setActive="setActive"
+            :activeItemId="activeItemId"
+        />
+        <Toolbar 
+            :elements="elements" 
             :activeItemId="activeItemId"
         />
     </div>
@@ -12,6 +17,7 @@
 <script>
 import Designer from "../components/Designer.vue";
 import Sidebar from "../components/Sidebar.vue";
+import Toolbar from "../components/Toolbar.vue";
 import $ from "jquery";
 import elements from "../data/elements";
 require("jquery-ui/ui/widgets/resizable");
@@ -21,6 +27,7 @@ export default {
     components: {
         Sidebar,
         Designer,
+        Toolbar
     },
     data() {
         return {
@@ -49,9 +56,11 @@ export default {
             const type = elements[this.elements.find((x) => x.id == id).type];
             setTimeout(() => {
                 $("#canvas #element-wrap-" + id).resizable({
+                    containment: "#canvas",
                     ...type.extraResizableOption,
                     minWidth: type.style.minWidth.replace("px", ""),
                     minHeight: type.style.minHeight.replace("px", ""),
+                    resize: () => this.$refs.designer.setForceRecomputeCounter(),
                 });
             }, 50);
         },

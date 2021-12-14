@@ -33,6 +33,7 @@
 
 <script>
 import ElementModule from "./ElementModule.vue";
+import elements from "../data/elements";
 
 export default {
     name: "designer",
@@ -49,6 +50,9 @@ export default {
         };
     },
     methods: {
+        setForceRecomputeCounter(){
+            this.forceRecomputeCounter++;
+        },
         setActive(e) {
             this.$emit("setActive", e);
             this.forceRecomputeCounter++;
@@ -56,18 +60,37 @@ export default {
         startLine(id, n) {
             this.lineStartElementId = id;
             this.lineStartOutputN = n;
+            this.lines = this.lines.filter(x => !(x.output.elementId == id && x.output.dot == n));
         },
         drawLine(id, isReal) {
             if (this.lineStartElementId && this.lineStartElementId !== id) {
                 this.lines = this.lines.filter(x => x.isReal);
+                var flag = false;
+                var inputCount = 0;
                 this.lines.forEach((line) => {
                     if (
                         line.output.elementId == this.lineStartElementId &&
                         line.input.elementId == id
                     ) {
+                        flag = true;
                         return;
                     }
+                    if(line.input.elementId == id){
+                        inputCount++;
+                    }
                 });
+                var inputLimit = 0;
+                this.elements.forEach(el => {
+                    if(el.id == id){
+                        inputLimit = elements[el.type].input;
+                    }
+                });
+                if(inputCount >= inputLimit ){
+                    flag = true;
+                }
+                if(flag)
+                    return;
+
                 this.lines.push({
                     isReal: isReal,
                     output: {
