@@ -7,7 +7,7 @@
         <div class="inputs" :style="{ opacity: isActive ? 1 : 0 }">
             <div
                 class="input-dot"
-                v-for="n in getElementType.input"
+                v-for="n in element.inputLimit"
                 :key="n"
             ></div>
         </div>
@@ -18,7 +18,7 @@
             <div
                 @click="startLine(n)"
                 class="output-dot"
-                v-for="n in getElementType.output"
+                v-for="n in element.outputLimit"
                 :key="n"
             ></div>
         </div>
@@ -71,6 +71,8 @@ export default {
                     this.isDraggable && this.element.id == this.activeItemId
                         ? "1px dashed #06a8ff"
                         : "1px solid transparent",
+                top: this.element.y,
+                left: this.element.x,
             };
         },
         getElementType() {

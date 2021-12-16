@@ -7,7 +7,7 @@ export default {
             background: "#000",
             color: "#fff",
         },
-        input: 2,
+        input: 0,
         output: 3,
     },
     process: {
@@ -17,7 +17,7 @@ export default {
             background: "#000",
             color: "#fff",
         },
-        input: 2,
+        input: 1,
         output: 3,
     },
     decision: {
@@ -32,7 +32,7 @@ export default {
             aspectRatio: 1,
         },
         input: 2,
-        output: 3,
+        output: 2,
     },
     delay: {
         style: {
@@ -43,7 +43,7 @@ export default {
             color: "#fff",
         },
         input: 2,
-        output: 3,
+        output: 1,
     },
     data: {
         style: {
@@ -54,9 +54,18 @@ export default {
                 "no-repeat url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 500'><rect x='190' y='0' width='90%' height='100%'  transform='skewX(-20)' /></svg>\")",
         },
         extraResizableOption: {
-            aspectRatio: 20/5,
+            aspectRatio: 20 / 5,
         },
-        input: 2,
-        output: 3,
+        input: 1,
+        output: 1,
+    },
+    module: {
+        style: {
+            minWidth: "200px",
+            minHeight: "50px",
+            borderRadius: "50px 0 50px",
+            background: "#000",
+            color: "#fff",
+        },
     },
 };
