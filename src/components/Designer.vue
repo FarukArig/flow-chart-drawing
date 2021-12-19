@@ -68,6 +68,7 @@ export default {
                         .output--;
                     return false;
                 }
+                return true;
             });
         },
         drawLine(id, isReal) {
