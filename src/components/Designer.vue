@@ -12,20 +12,16 @@
                 @startLine="startLine"
                 @forceRecomputeCounter="forceRecomputeCounter++"
             />
-            <svg
-                class="line"
-                width="800"
-                height="500"
-                v-for="(line, k) in lineSvgs"
-                :key="k"
-            >
-                <line
-                    :x1="line.x1"
-                    :y1="line.y1"
-                    :x2="line.x2"
-                    :y2="line.y2"
+            <svg class="line" width="800" height="500">
+                <path
+                    v-for="(line, k) in lineSvgs"
+                    :key="k"
+                    :d="line.d"
                     :stroke="line.stroke"
-                />
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    fill="transparent"
+                ></path>
             </svg>
         </div>
     </div>
@@ -169,11 +165,17 @@ export default {
                                 ")"
                         )
                         .getBoundingClientRect();
+
+                    var x1 = startDot.left - canvas.left + 3;
+                    var y1 = startDot.top - canvas.top + 3;
+                    var x2 = endDot.left - canvas.left + 3;
+                    var y2 = endDot.top - canvas.top + 3;
+                    var d = Math.max(x1 - x2, 50);
+                    var curve = `M${x1},${y1} C ${x1 + d},${y1} ${
+                        x2 - d
+                    },${y2} ${x2},${y2}`;
                     lineSvgs.push({
-                        x1: startDot.left - canvas.left + 3,
-                        y1: startDot.top - canvas.top + 3,
-                        x2: endDot.left - canvas.left + 3,
-                        y2: endDot.top - canvas.top + 3,
+                        d: curve,
                         stroke: line.isReal ? "black" : "red",
                     });
                 });
