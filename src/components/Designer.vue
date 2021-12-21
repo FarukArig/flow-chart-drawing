@@ -21,6 +21,7 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     fill="transparent"
+                    :stroke-dasharray="line.dasharray"
                 ></path>
             </svg>
         </div>
@@ -177,6 +178,7 @@ export default {
                     lineSvgs.push({
                         d: curve,
                         stroke: line.isReal ? "black" : "red",
+                        dasharray: line.isReal ? "0" : "5,5",
                     });
                 });
             }
