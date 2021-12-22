@@ -12,20 +12,17 @@
                 @startLine="startLine"
                 @forceRecomputeCounter="forceRecomputeCounter++"
             />
-            <svg
-                class="line"
-                width="800"
-                height="500"
-                v-for="(line, k) in lineSvgs"
-                :key="k"
-            >
-                <line
-                    :x1="line.x1"
-                    :y1="line.y1"
-                    :x2="line.x2"
-                    :y2="line.y2"
+            <svg class="line" width="800" height="500">
+                <path
+                    v-for="(line, k) in lineSvgs"
+                    :key="k"
+                    :d="line.d"
                     :stroke="line.stroke"
-                />
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    fill="transparent"
+                    :stroke-dasharray="line.dasharray"
+                ></path>
             </svg>
         </div>
     </div>
@@ -50,7 +47,7 @@ export default {
         };
     },
     methods: {
-        setForceRecomputeCounter(){
+        setForceRecomputeCounter() {
             this.forceRecomputeCounter++;
         },
         setActive(e) {
@@ -60,11 +57,20 @@ export default {
         startLine(id, n) {
             this.lineStartElementId = id;
             this.lineStartOutputN = n;
-            this.lines = this.lines.filter(x => !(x.output.elementId == id && x.output.dot == n));
+            this.lines = this.lines.filter((x) => {
+                if (x.output.elementId == id && x.output.dot == n) {
+                    this.elements.find((y) => y.id == x.input.elementId)
+                        .input--;
+                    this.elements.find((y) => y.id == x.output.elementId)
+                        .output--;
+                    return false;
+                }
+                return true;
+            });
         },
         drawLine(id, isReal) {
             if (this.lineStartElementId && this.lineStartElementId !== id) {
-                this.lines = this.lines.filter(x => x.isReal);
+                this.lines = this.lines.filter((x) => x.isReal);
                 var flag = false;
                 var inputCount = 0;
                 this.lines.forEach((line) => {
@@ -75,21 +81,20 @@ export default {
                         flag = true;
                         return;
                     }
-                    if(line.input.elementId == id){
+                    if (line.input.elementId == id) {
                         inputCount++;
                     }
                 });
                 var inputLimit = 0;
-                this.elements.forEach(el => {
-                    if(el.id == id){
+                this.elements.forEach((el) => {
+                    if (el.id == id) {
                         inputLimit = elements[el.type].input;
                     }
                 });
-                if(inputCount >= inputLimit ){
+                if (inputCount >= inputLimit) {
                     flag = true;
                 }
-                if(flag)
-                    return;
+                if (flag) return;
 
                 this.lines.push({
                     isReal: isReal,
@@ -101,11 +106,31 @@ export default {
                         elementId: id,
                     },
                 });
-                if(isReal){
+                if (isReal) {
+                    this.elements.forEach((el) => {
+                        if (el.id === id) {
+                            el.input++;
+                        }
+
+                        if (el.id === this.lineStartElementId) {
+                            el.output++;
+                        }
+                    });
                     this.lineStartElementId = null;
                 }
             }
         },
+    },
+    mounted() {
+        document.addEventListener("click", (e) => {
+            if (
+                e.target == document.querySelector("#canvas") ||
+                e.target == document.querySelector("svg.line")
+            ) {
+                this.$emit("setPassive");
+                this.lineStartElementId = null;
+            }
+        });
     },
     computed: {
         lineSvgs() {
@@ -115,7 +140,7 @@ export default {
                 const canvas = document
                     .querySelector("#canvas")
                     .getBoundingClientRect();
-                this.lines.forEach((line,k) => {
+                this.lines.forEach((line, k) => {
                     const startDot = document
                         .querySelector(
                             "#canvas #element-wrap-" +
@@ -128,7 +153,7 @@ export default {
                     let n = 1;
                     for (let i = 0; i < k; i++) {
                         const tempLine = this.lines[i];
-                        if(tempLine.input.elementId == line.input.elementId){
+                        if (tempLine.input.elementId == line.input.elementId) {
                             n++;
                         }
                     }
@@ -141,12 +166,19 @@ export default {
                                 ")"
                         )
                         .getBoundingClientRect();
+
+                    var x1 = startDot.left - canvas.left + 3;
+                    var y1 = startDot.top - canvas.top + 3;
+                    var x2 = endDot.left - canvas.left + 3;
+                    var y2 = endDot.top - canvas.top + 3;
+                    var d = Math.max(x1 - x2, 50);
+                    var curve = `M${x1},${y1} C ${x1 + d},${y1} ${
+                        x2 - d
+                    },${y2} ${x2},${y2}`;
                     lineSvgs.push({
-                        x1: startDot.left - canvas.left + 3,
-                        y1: startDot.top - canvas.top + 3,
-                        x2: endDot.left - canvas.left + 3,
-                        y2: endDot.top - canvas.top + 3,
-                        stroke: line.isReal ? "black": "red"
+                        d: curve,
+                        stroke: line.isReal ? "black" : "red",
+                        dasharray: line.isReal ? "0" : "5,5",
                     });
                 });
             }
