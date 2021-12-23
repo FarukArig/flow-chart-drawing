@@ -2,18 +2,21 @@
     <div id="header">
         <Popup ref="saveModulePopup" title="Yeni Module Oluştur">
             <div style="display: flex">
-                <input
+                <el-input
+                    size="small"
                     @keypress.enter="createModule"
                     type="text"
                     style="margin-right: 25px"
                     v-model="name"
                 />
-                <button @click="createModule" class="btn-green">Kaydet</button>
+                <el-button size="small" type="primary" @click="createModule"
+                    >Kaydet</el-button
+                >
             </div>
         </Popup>
-        <button class="btn-green" @click="saveModule">
+        <el-button size="small" type="primary" @click="saveModule">
             Modül olarak kaydet
-        </button>
+        </el-button>
     </div>
 </template>
 
@@ -21,7 +24,7 @@
 import Popup from "./Popup.vue";
 export default {
     components: { Popup },
-    name: "header",
+    name: "HeaderComponent",
     data() {
         return {
             name: "",
