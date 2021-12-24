@@ -9,6 +9,7 @@ export default {
         },
         input: 0,
         output: 3,
+        attributes: [],
     },
     process: {
         style: {
@@ -19,6 +20,7 @@ export default {
         },
         input: 1,
         output: 3,
+        attributes: [],
     },
     decision: {
         style: {
@@ -33,6 +35,7 @@ export default {
         },
         input: 2,
         output: 2,
+        attributes: [],
     },
     delay: {
         style: {
@@ -44,6 +47,23 @@ export default {
         },
         input: 2,
         output: 1,
+        attributes: [
+            {
+                type: "checkbox",
+                key: "key",
+                labelName: "Checkbox Option",
+                options: [
+                    {
+                        text: "Option 1",
+                        value: 1,
+                    },
+                    {
+                        text: "Option 2",
+                        value: 2,
+                    },
+                ],
+            },
+        ],
     },
     data: {
         style: {
@@ -58,6 +78,7 @@ export default {
         },
         input: 1,
         output: 1,
+        attributes: [],
     },
     module: {
         style: {
@@ -67,5 +88,6 @@ export default {
             background: "#000",
             color: "#fff",
         },
+        attributes: [],
     },
 };
