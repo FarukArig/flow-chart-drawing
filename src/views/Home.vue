@@ -45,7 +45,10 @@ export default {
     },
     methods: {
         addElement(type) {
-            const id = Math.floor(Math.random() * 10000);
+            let id = 0;
+            do {
+                id = Math.floor(Math.random() * 10000);
+            } while (this.elements.find((x) => x.id == id));
             this.elements.push({
                 id: id,
                 text: type,
