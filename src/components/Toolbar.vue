@@ -8,17 +8,21 @@
         <div v-if="getElementType">
             <div
                 class="label"
-                v-for="(attribute, k) in getElementType.attributes"
+                v-for="(attribute, k) in attributes"
                 :key="k"
             >
                 <span class="text">{{ attribute.labelName }}</span>
-                <el-select size="small" v-model="attributes[attribute.key]">
+                <el-select
+                    v-if="attribute.type == 'selectbox'"
+                    size="small"
+                    v-model="attribute.value"
+                >
                     <el-option
                         v-for="(option, k) in attribute.options"
                         :key="k"
                         :value="option.value"
-                        >{{ option.text }}</el-option
-                    >
+                        :label="option.text"
+                    ></el-option>
                 </el-select>
             </div>
         </div>
@@ -33,7 +37,7 @@ export default {
     data() {
         return {
             text: null,
-            attributes: {},
+            attributes: [],
             attributesDebounce: false,
         };
     },
@@ -48,17 +52,29 @@ export default {
         activeItemId: function () {
             if (this.activeItemId === null) return;
             this.text = this.getElement.text;
-            this.attributes = {};
+            this.attributes = [];
             this.attributesDebounce = true;
-            this.getElementType.attributes.forEach((attribute) => {
-                this.attributes[attribute.key] = "";
+            this.getElementType.attributes.forEach((attr) => {
+                var check = this.getElement.attributes.find(
+                    (x) => x.key == attr.key
+                );
+                this.attributes.push({...attr, value: check ? check.value : null});
             });
         },
         attributes: {
-            handler(newVal) {
-                console.log(newVal);
+            handler: function (newVal) {
+                if (!this.attributesDebounce) {
+                    console.log("a");
+                    this.elements.forEach((el) => {
+                        if (el.id == this.activeItemId) {
+                            el.attributes = newVal;
+                        }
+                    });
+                } else {
+                    this.attributesDebounce = false;
+                }
             },
-            deep: true,
+            deep: true
         },
     },
     computed: {

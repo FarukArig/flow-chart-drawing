@@ -57,6 +57,7 @@ export default {
                 output: 0,
                 inputLimit: elements[type].input,
                 outputLimit: elements[type].output,
+                attributes: [],
             });
             this.setActive(id);
         },

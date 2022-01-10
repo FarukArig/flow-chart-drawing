@@ -49,9 +49,9 @@ export default {
         output: 1,
         attributes: [
             {
-                type: "checkbox",
+                type: "selectbox",
                 key: "key",
-                labelName: "Checkbox Option",
+                labelName: "SelectBox Attribute",
                 options: [
                     {
                         text: "Option 1",
@@ -78,7 +78,38 @@ export default {
         },
         input: 1,
         output: 1,
-        attributes: [],
+        attributes: [
+            {
+                type: "selectbox",
+                key: "key",
+                labelName: "SelectBox Attribute",
+                options: [
+                    {
+                        text: "Option 1",
+                        value: 1,
+                    },
+                    {
+                        text: "Option 2",
+                        value: 2,
+                    },
+                ],
+            },
+            {
+                type: "selectbox",
+                key: "age",
+                labelName: "Age Attribute",
+                options: [
+                    {
+                        text: "Option 1",
+                        value: 10,
+                    },
+                    {
+                        text: "Option 2",
+                        value: 20,
+                    },
+                ],
+            },
+        ],
     },
     module: {
         style: {
