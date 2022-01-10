@@ -100,7 +100,7 @@ export default {
             },
             {
                 type: "radio",
-                key: "age",
+                key: "ageRadio",
                 labelName: "Age",
                 options: [
                     {
