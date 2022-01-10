@@ -81,33 +81,53 @@ export default {
         attributes: [
             {
                 type: "selectbox",
-                key: "key",
-                labelName: "SelectBox Attribute",
+                key: "age",
+                labelName: "Age",
                 options: [
                     {
-                        text: "Option 1",
+                        text: "0-18",
                         value: 1,
                     },
                     {
-                        text: "Option 2",
+                        text: "19-25",
                         value: 2,
+                    },
+                    {
+                        text: "26-50",
+                        value: 3,
                     },
                 ],
             },
             {
-                type: "selectbox",
+                type: "radio",
                 key: "age",
-                labelName: "Age Attribute",
+                labelName: "Age",
                 options: [
                     {
-                        text: "Option 1",
-                        value: 10,
+                        text: "0-18",
+                        value: 1,
                     },
                     {
-                        text: "Option 2",
-                        value: 20,
+                        text: "19-25",
+                        value: 2,
+                    },
+                    {
+                        text: "26-50",
+                        value: 3,
                     },
                 ],
+            },
+            {
+                type: "checkbox",
+                key: "notification",
+                labelName: "Send notification by email?",
+                text: "Yes",
+            },
+            {
+                type: "text",
+                key: "email",
+                labelName: "Email Address",
+                placeholder: "abc@company.com",
             },
         ],
     },

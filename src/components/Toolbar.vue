@@ -6,11 +6,7 @@
             <el-input size="small" v-model="text" type="text" />
         </div>
         <div v-if="getElementType">
-            <div
-                class="label"
-                v-for="(attribute, k) in attributes"
-                :key="k"
-            >
+            <div class="label" v-for="(attribute, k) in attributes" :key="k">
                 <span class="text">{{ attribute.labelName }}</span>
                 <el-select
                     v-if="attribute.type == 'selectbox'"
@@ -24,6 +20,28 @@
                         :label="option.text"
                     ></el-option>
                 </el-select>
+                <el-checkbox
+                    v-if="attribute.type == 'checkbox'"
+                    v-model="attribute.value"
+                    >{{ attribute.text }}</el-checkbox
+                >
+                <el-input
+                    v-if="attribute.type == 'text'"
+                    :placeholder="attribute.placeholder"
+                    v-model="attribute.value"
+                />
+                <el-radio-group
+                    v-if="attribute.type == 'radio'"
+                    size="small"
+                    v-model="attribute.value"
+                >
+                    <el-radio
+                        v-for="(option, k) in attribute.options"
+                        :key="k"
+                        :label="option.value"
+                        >{{ option.text }}</el-radio
+                    >
+                </el-radio-group>
             </div>
         </div>
     </div>
@@ -58,13 +76,15 @@ export default {
                 var check = this.getElement.attributes.find(
                     (x) => x.key == attr.key
                 );
-                this.attributes.push({...attr, value: check ? check.value : null});
+                this.attributes.push({
+                    ...attr,
+                    value: check ? check.value : null,
+                });
             });
         },
         attributes: {
             handler: function (newVal) {
                 if (!this.attributesDebounce) {
-                    console.log("a");
                     this.elements.forEach((el) => {
                         if (el.id == this.activeItemId) {
                             el.attributes = newVal;
@@ -74,7 +94,7 @@ export default {
                     this.attributesDebounce = false;
                 }
             },
-            deep: true
+            deep: true,
         },
     },
     computed: {
