@@ -1,6 +1,6 @@
 <template>
     <div id="home">
-        <Header ref="header" @createModule="createModule" />
+        <Header ref="header" @createModule="createModule" @save="save" />
         <div class="content">
             <Sidebar
                 @addElement="addElement"
@@ -13,6 +13,7 @@
                 @setActive="setActive"
                 @setPassive="setPassive"
                 :activeItemId="activeItemId"
+                @reOrderByRecommend="reOrderByRecommend"
             />
             <Toolbar :elements="elements" :activeItemId="activeItemId" />
         </div>
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Designer from "../components/Designer.vue";
 import Sidebar from "../components/Sidebar.vue";
 import Toolbar from "../components/Toolbar.vue";
@@ -41,6 +43,7 @@ export default {
             elements: [],
             modules: [],
             activeItemId: null,
+            orderElements: elements,
         };
     },
     methods: {
@@ -57,6 +60,7 @@ export default {
                 output: 0,
                 inputLimit: elements[type].input,
                 outputLimit: elements[type].output,
+                attributes: [],
             });
             this.setActive(id);
         },
@@ -143,6 +147,19 @@ export default {
                 this.$refs.header.closePopup();
                 this.$message.success("Modül oluşturuldu");
             }
+        },
+        save(title) {
+            axios.post("/Add", {
+                title,
+                elements: this.elements,
+                lines: this.$refs.designer.lines,
+                stepList: this.$refs.designer
+                    .getTypeList(
+                        this.elements.find((y) => y.output == 0).id,
+                        []
+                    )
+                    .reverse(),
+            });
         },
     },
     mounted() {
