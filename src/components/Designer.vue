@@ -31,6 +31,7 @@
 <script>
 import ElementModule from "./ElementModule.vue";
 import elements from "../data/elements";
+import axios from "axios";
 
 export default {
     name: "designer",
@@ -54,7 +55,31 @@ export default {
             this.$emit("setActive", e);
             this.forceRecomputeCounter++;
         },
+        getTypeList(id, list) {
+            list.push(this.elements.find((y) => y.id == id).type);
+            if (this.lines.find((x) => x.input.elementId == id)) {
+                list.concat(
+                    this.getTypeList(
+                        this.lines.find((x) => x.input.elementId == id).output
+                            .elementId,
+                        list
+                    )
+                );
+            }
+            return list;
+        },
         startLine(id, n) {
+            var stepList = this.getTypeList(id, []).reverse();
+            axios
+                .post("/GetRecommend", {
+                    stepList,
+                })
+                .then((res) => {
+                    this.$message.info(
+                        res.data + " tipi ile bağlantı kurulabilir"
+                    );
+                });
+
             this.lineStartElementId = id;
             this.lineStartOutputN = n;
             this.lines = this.lines.filter((x) => {

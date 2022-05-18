@@ -7,8 +7,8 @@ export default {
             background: "#000",
             color: "#fff",
         },
-        input: 0,
-        output: 3,
+        input: 1,
+        output: 1,
         attributes: [],
     },
     process: {
@@ -19,7 +19,7 @@ export default {
             color: "#fff",
         },
         input: 1,
-        output: 3,
+        output: 1,
         attributes: [],
     },
     decision: {
@@ -33,8 +33,8 @@ export default {
         extraResizableOption: {
             aspectRatio: 1,
         },
-        input: 2,
-        output: 2,
+        input: 1,
+        output: 1,
         attributes: [],
     },
     delay: {
@@ -45,7 +45,7 @@ export default {
             background: "#000",
             color: "#fff",
         },
-        input: 2,
+        input: 1,
         output: 1,
         attributes: [
             {

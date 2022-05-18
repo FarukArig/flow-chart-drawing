@@ -14,8 +14,11 @@
                 >
             </div>
         </Popup>
-        <el-button size="small" type="primary" @click="saveModule">
+        <el-button size="small" type="secondary" @click="saveModule">
             Modül olarak kaydet
+        </el-button>
+        <el-button size="small" type="primary" @click="save">
+            Kaydet
         </el-button>
     </div>
 </template>
@@ -33,6 +36,16 @@ export default {
     methods: {
         closePopup() {
             this.$refs.saveModulePopup.setPassive();
+        },
+        save() {
+            this.$prompt("", "Name", {
+                confirmButtonText: "Save",
+                cancelButtonText: "Cancel",
+                inputPattern: /[^ ]{3,}/,
+                inputErrorMessage: "Name must be at least 3 characters",
+            }).then(({ value }) => {
+                this.$emit("save", value);
+            });
         },
         saveModule() {
             this.$refs.saveModulePopup.setActive();
